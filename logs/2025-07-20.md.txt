@@ -1,0 +1,3 @@
+- Started GitHub project setup.
+- Learned GitHub Desktop basics.
+- Created initial structure for tracking coding progress.
