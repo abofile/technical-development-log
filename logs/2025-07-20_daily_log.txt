@@ -1,7 +1,0 @@
-Date: 2025-07-20
-Progress:
-- Learned about Python data types.
-- Reviewed and practiced via Jupyter notebook (data_types.ipynb).
-
-Notes:
-- Covered basic data types such as int, float, str, bool, list, tuple, dict, and set.
