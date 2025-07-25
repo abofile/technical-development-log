@@ -1,0 +1,20 @@
+# ► Python _______________________________________
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+
+# ► Jupyter Notebooks ____________________________
+.ipynb_checkpoints/
+*.nbconvert.ipynb
+
+# ► Virtual-envs _________________________________
+venv/
+.env/
+.venv/
+
+# ► OS / Editor junk _____________________________
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
