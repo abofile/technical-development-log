@@ -1,3 +1,7 @@
+![Last Commit](https://img.shields.io/github/last-commit/abofile/technical-development-log?logo=github)
+![License](https://img.shields.io/github/license/abofile/technical-development-log)
+![Python](https://img.shields.io/badge/python-3.12%2B-brightgreen)
+
 # Technical Development Log 📘
 
 This repository serves as a structured log of my ongoing development in programming, systems, and data science. All work here reflects personal study, hands-on practice, and project-building across core computing skills.
@@ -25,3 +29,4 @@ This repository serves as a structured log of my ongoing development in programm
 - Git & GitHub
 - Free educational content (FreeCodeCamp, Real Python, etc.)
 - paid educational content (Udemy, codecadmey, Briliant, etc.)
+docs: add badges to README
