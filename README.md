@@ -29,4 +29,4 @@ This repository serves as a structured log of my ongoing development in programm
 - Git & GitHub
 - Free educational content (FreeCodeCamp, Real Python, etc.)
 - paid educational content (Udemy, codecadmey, Briliant, etc.)
-docs: add badges to README
+
