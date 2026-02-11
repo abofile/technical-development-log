@@ -34,6 +34,13 @@ compound(starting_value, growth, time, choise)
 if choise.strip().upper() != "Y":
     print(f"total growth: {total}")
 
-needed_growth = compound_goal(8335, 18000, 10)
+goal_request = input("Target goal calculator y/n")
 
-print(f"You need a growth rate of {target}% a year to reach your goal")
+if goal_request.strip().upper() == "Y":
+    A = float(input("the current value ="))
+    B = float(input("the goal target ="))
+    C = int(input("what is your time frame: "))
+
+    compound_goal(A, B, C)
+
+    print(f"You need a growth rate of {target}% a year to reach your goal")
