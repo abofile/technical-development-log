@@ -37,8 +37,8 @@ if choise.strip().upper() != "Y":
 goal_request = input("Target goal calculator y/n")
 
 if goal_request.strip().upper() == "Y":
-    A = float(input("the current value ="))
-    B = float(input("the goal target ="))
+    A = float(input("the current value = "))
+    B = float(input("the goal target = "))
     C = int(input("what is your time frame: "))
 
     compound_goal(A, B, C)
