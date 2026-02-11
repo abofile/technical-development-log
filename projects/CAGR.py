@@ -9,7 +9,7 @@ def compound(initial_value: float, growth_rate: float, cycles: int, counter: str
     for i in range(cycles):
         if counter.strip().upper() == "Y":
             total += rate * total
-            print(f"Year no.{i + 1}: {total}")
+            print(f"Year no.{i + 1}: {round(total, 3)}")
         else:
             total += rate * total
     return total
@@ -32,7 +32,7 @@ choise = input("do you want a yearly growth rate counter y/n ")
 compound(starting_value, growth, time, choise)
 
 if choise.strip().upper() != "Y":
-    print(f"total growth: {total}")
+    print(f"total growth: {round(total, 3)}")
 
 goal_request = input("Target goal calculator y/n")
 
@@ -43,4 +43,4 @@ if goal_request.strip().upper() == "Y":
 
     compound_goal(A, B, C)
 
-    print(f"You need a growth rate of {target}% a year to reach your goal")
+    print(f"You need a growth rate of {round(target, 3)}% a year to reach your goal")
