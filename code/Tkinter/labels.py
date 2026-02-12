@@ -23,6 +23,6 @@ label = Label(
 )
 
 label.pack()
-# label.place(x=0,y=0) sets the lebal to given corridenance
+# label.place(x=0,y=0) sets the lable to given coordinates
 
 window.mainloop()
