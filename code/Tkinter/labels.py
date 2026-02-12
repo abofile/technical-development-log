@@ -1,5 +1,5 @@
 from tkinter import *
-from PIL import Image, ImageTk  # using pillow due to a display error on macos
+from PIL import Image, ImageTk  # using pillow due to a display bug on macos
 
 # label = an are widget that holds text and or an image wihtin a window
 
@@ -23,6 +23,6 @@ label = Label(
 )
 
 label.pack()
-# label.place(x=0,y=0) sets the lebal to given corridenance
+# label.place(x=0,y=0) sets the lable to given coordinates
 
 window.mainloop()
