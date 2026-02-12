@@ -21,18 +21,21 @@ def compound_goal(initial_value, goal, time_frame):
     return target
 
 
-starting_value = float(input("the initial value = "))
+CAGR_calculator = input("CAGR calculator y/n")
 
-growth = float(input("the growth_rate = "))
+if CAGR_calculator.strip().upper() == "Y":
+    starting_value = float(input("the initial value = "))
 
-time = int(input("cycles = "))
+    growth = float(input("the growth_rate = "))
 
-choise = input("do you want a yearly growth rate counter y/n ")
+    time = int(input("cycles = "))
 
-compound(starting_value, growth, time, choise)
+    choise = input("do you want a yearly growth rate counter y/n ")
 
-if choise.strip().upper() != "Y":
-    print(f"total growth: {round(total, 3)}")
+    compound(starting_value, growth, time, choise)
+
+    if choise.strip().upper() != "Y":
+        print(f"total growth: {round(total, 3)}")
 
 goal_request = input("Target goal calculator y/n")
 
