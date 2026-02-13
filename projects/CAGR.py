@@ -7,11 +7,11 @@ def compound(initial_value: float, growth_rate: float, cycles: int, counter: str
     total = initial_value
     rate = growth_rate / 100
     for i in range(cycles):
+        total += rate * total
+
         if counter.strip().upper() == "Y":
-            total += rate * total
             print(f"Year no.{i + 1}: {round(total, 3)}")
-        else:
-            total += rate * total
+
     return total
 
 
