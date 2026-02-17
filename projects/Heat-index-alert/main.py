@@ -32,8 +32,13 @@ HEAT_INDEX_TABLE = {
     26: {10: 25, 20: 25,   30: 26,   40: 26,   50: 27,   60: 27,   70: 27,   80: 28,   90: 28  },
 }
 
-air_temp_c = int(input("temp"))
-relative_humidity = int(input("humid"))
+temp_input = float(input("temp")) 
+humid_input = float(input("humid"))
+
+# to switch the sensor input to int for compatability with HEAT_INDEX_TABLE
+air_temp_c = int(temp_input)
+relative_humidity = int(humid_input)
+
 temp = 0
 humid = 0
 
@@ -47,7 +52,7 @@ def out_of_range_round(tempc,air_moisture):
         if temp < 26:
             temp = 26
         else:
-            temp = 51
+            temp = 50
 
     if humid not in range(10,91):
         if humid < 10:
@@ -58,12 +63,13 @@ def out_of_range_round(tempc,air_moisture):
         pass
 
 out_of_range_round(air_temp_c,relative_humidity)
-print(f"{temp}  {humid}")
-HEAT_INDEX = HEAT_INDEX_TABLE[temp][humid]
+print(f"{round(temp,1)}  {round(humid, -1)}")
+HEAT_INDEX = HEAT_INDEX_TABLE[temp][round(humid,-1)]
 
 
-
-if HEAT_INDEX <= 29:
+if HEAT_INDEX is None:
+    print("Extreme Danger")
+elif HEAT_INDEX <= 29:
     print("Caution")
 elif 30 <= HEAT_INDEX <= 38:
     print("Extreme Caution")
