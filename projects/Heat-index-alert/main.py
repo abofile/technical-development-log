@@ -1,5 +1,6 @@
-#import dht 
-
+import dht
+import machine
+import time
 # Heat Index Lookup Table
 # Structure: HEAT_INDEX_TABLE[air_temp_c][relative_humidity_%] = heat_index
 # None = off-chart (automatically Extreme Danger IV, treat as 52+)
@@ -31,54 +32,61 @@ HEAT_INDEX_TABLE = {
     27: {10: 26, 20: 26,   30: 26,   40: 27,   50: 27,   60: 28,   70: 29,   80: 30,   90: 31  },
     26: {10: 25, 20: 25,   30: 26,   40: 26,   50: 27,   60: 27,   70: 27,   80: 28,   90: 28  },
 }
+ 
+while True:
+    time.sleep(2)
 
-temp_input = float(input("temp")) 
-humid_input = float(input("humid"))
+    d = dht.DHT22(machine.Pin(4))
+    d.measure()
+    temp_input = d.temperature()
+    humid_input = d.humidity()
 
-# to switch the sensor input to int for compatability with HEAT_INDEX_TABLE
-air_temp_c = int(temp_input)
-relative_humidity = int(humid_input)
+    print(f"actual temp: {temp_input}  actual humid: {humid_input}")
 
-temp = 0
-humid = 0
+    # to switch the sensor input to int for compatability with HEAT_INDEX_TABLE
+    air_temp_c = int(temp_input)
+    relative_humidity = int(humid_input)
 
-def out_of_range_round(tempc,air_moisture):
-    global temp
-    global humid
-    temp = tempc
-    humid = air_moisture
+    temp = 0
+    humid = 0
 
-    if temp not in range(26,51):
-        if temp < 26:
-            temp = 26
+    def out_of_range_round(tempc,air_moisture):
+        global temp
+        global humid
+        temp = tempc
+        humid = air_moisture
+
+        if temp not in range(26,51):
+            if temp < 26:
+                temp = 26
+            else:
+                temp = 50
+
+        if humid not in range(10,91):
+            if humid < 10:
+                humid = 10
+            else:
+                humid = 90
         else:
-            temp = 50
+            pass
 
-    if humid not in range(10,91):
-        if humid < 10:
-            humid = 10
-        else:
-            humid = 90
+    out_of_range_round(air_temp_c,relative_humidity)
+    print(f"conv temp: {round(temp,1)}  conv humid: {round(humid, -1)}")
+    HEAT_INDEX = HEAT_INDEX_TABLE[temp][round(humid,-1)]
+
+
+    if HEAT_INDEX is None:
+        print("Extreme Danger")
+    elif HEAT_INDEX <= 29:
+        print("Caution")
+    elif 30 <= HEAT_INDEX <= 38:
+        print("Extreme Caution")
+    elif 39 <= HEAT_INDEX <= 51:
+        print("Danger")
+    elif HEAT_INDEX >= 52:
+        print("Extreme Danger")
     else:
-        pass
-
-out_of_range_round(air_temp_c,relative_humidity)
-print(f"{round(temp,1)}  {round(humid, -1)}")
-HEAT_INDEX = HEAT_INDEX_TABLE[temp][round(humid,-1)]
-
-
-if HEAT_INDEX is None:
-    print("Extreme Danger")
-elif HEAT_INDEX <= 29:
-    print("Caution")
-elif 30 <= HEAT_INDEX <= 38:
-    print("Extreme Caution")
-elif 39 <= HEAT_INDEX <= 51:
-    print("Danger")
-elif HEAT_INDEX >= 52:
-    print("Extreme Danger")
-else:
-    print("Normal Condition")
+        print("Normal Condition")
 
 
 
