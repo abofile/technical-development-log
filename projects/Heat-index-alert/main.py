@@ -40,7 +40,7 @@ i2c = I2C(0, scl=Pin(1), sda=Pin(0), freq=800000)
 print(i2c.scan()) 
 # init the lcd
 I2C_ADDR = 0x27
-i2c = I2C(0, scl=Pin(1), sda=Pin(0), freq=400000)
+i2c = I2C(0, scl=Pin(1), sda=Pin(0), freq=800000)
 lcd = LCD(addr=I2C_ADDR, cols=16, rows=2, i2c=i2c)
 lcd.begin()
 
@@ -56,7 +56,7 @@ while True:
     temp_input = d.temperature()
     humid_input = d.humidity()
 
-    print(f"actual temp: {temp_input}  actual humid: {humid_input}")
+    print(f"actual temp: {round(temp_input,1)}  actual humid: {round(humid_input,1)}")
 
     # to switch the sensor input to int for compatability with HEAT_INDEX_TABLE
     air_temp_c = int(temp_input)
@@ -92,16 +92,36 @@ while True:
     
     lcd.clear()
     if HEAT_INDEX is None:
+        lcd.set_cursor(0, 0)
+        lcd.print(f"Temp:{temp_input} humi:{humid_input}")
+        lcd.set_cursor(0, 1)
         lcd.print("Extreme Danger")
+
     elif HEAT_INDEX <= 29:
-        lcd.print(f"Caution Temp:{temp_input}\nHumidity:{humid_input}")
+        lcd.set_cursor(0, 0)
+        lcd.print(f"Temp:{round(temp_input,1)}Humi:{round(humid_input,1)}")
+        lcd.set_cursor(0, 1)
+        lcd.print("Caution I:1")
+
     elif 30 <= HEAT_INDEX <= 38:
+        lcd.set_cursor(0, 0)
+        lcd.print(f"Temp:{temp_input}Humi:{humid_input}")
+        lcd.set_cursor(0, 1)
         lcd.print("Extreme Caution")
     elif 39 <= HEAT_INDEX <= 51:
+        lcd.set_cursor(0, 0)
+        lcd.print(f"Temp:{temp_input}Humi:{humid_input}")
+        lcd.set_cursor(0, 1)
         lcd.print("Danger")
     elif HEAT_INDEX >= 52:
+        lcd.set_cursor(0, 0)
+        lcd.print(f"Temp:{temp_input}Humi:{humid_input}")
+        lcd.set_cursor(0, 1)
         lcd.print("Extreme Danger")
     else:
+        lcd.set_cursor(0, 0)
+        lcd.print(f"Temp:{temp_input}Humi:{humid_input}")
+        lcd.set_cursor(0, 1)
         lcd.print("Normal Condition")
 
     
