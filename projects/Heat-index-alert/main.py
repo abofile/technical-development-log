@@ -1,6 +1,7 @@
 import dht
-import machine
+from machine import I2C, Pin
 import time
+from lcd_i2c import LCD
 # Heat Index Lookup Table
 # Structure: HEAT_INDEX_TABLE[air_temp_c][relative_humidity_%] = heat_index
 # None = off-chart (automatically Extreme Danger IV, treat as 52+)
@@ -32,11 +33,25 @@ HEAT_INDEX_TABLE = {
     27: {10: 26, 20: 26,   30: 26,   40: 27,   50: 27,   60: 28,   70: 29,   80: 30,   90: 31  },
     26: {10: 25, 20: 25,   30: 26,   40: 26,   50: 27,   60: 27,   70: 27,   80: 28,   90: 28  },
 }
- 
+
+
+# To Check If LCD Is begin detected
+i2c = I2C(0, scl=Pin(1), sda=Pin(0), freq=800000)
+print(i2c.scan()) 
+# init the lcd
+I2C_ADDR = 0x27
+i2c = I2C(0, scl=Pin(1), sda=Pin(0), freq=400000)
+lcd = LCD(addr=I2C_ADDR, cols=16, rows=2, i2c=i2c)
+lcd.begin()
+
+
+
 while True:
     time.sleep(2)
+    
 
-    d = dht.DHT22(machine.Pin(4))
+    #sensor setup
+    d = dht.DHT22(Pin(4))
     d.measure()
     temp_input = d.temperature()
     humid_input = d.humidity()
@@ -74,20 +89,23 @@ while True:
     print(f"conv temp: {round(temp,1)}  conv humid: {round(humid, -1)}")
     HEAT_INDEX = HEAT_INDEX_TABLE[temp][round(humid,-1)]
 
-
+    
+    lcd.clear()
     if HEAT_INDEX is None:
-        print("Extreme Danger")
+        lcd.print("Extreme Danger")
     elif HEAT_INDEX <= 29:
-        print("Caution")
+        lcd.print(f"Caution Temp:{temp_input}\nHumidity:{humid_input}")
     elif 30 <= HEAT_INDEX <= 38:
-        print("Extreme Caution")
+        lcd.print("Extreme Caution")
     elif 39 <= HEAT_INDEX <= 51:
-        print("Danger")
+        lcd.print("Danger")
     elif HEAT_INDEX >= 52:
-        print("Extreme Danger")
+        lcd.print("Extreme Danger")
     else:
-        print("Normal Condition")
+        lcd.print("Normal Condition")
 
+    
+    
 
 
 
