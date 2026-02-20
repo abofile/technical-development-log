@@ -7,6 +7,7 @@ from lcd_i2c import LCD
 # None = off-chart (automatically Extreme Danger IV, treat as 52+)
 
 HEAT_INDEX_TABLE = {
+    51: {10:None,20: None, 30: None, 40: None, 50: None, 60: None, 70: None, 80: None, 90: None},
     50: {10: 48, 20: None, 30: None, 40: None, 50: None, 60: None, 70: None, 80: None, 90: None},
     49: {10: 47, 20: None, 30: None, 40: None, 50: None, 60: None, 70: None, 80: None, 90: None},
     48: {10: 45, 20: 53,   30: None, 40: None, 50: None, 60: None, 70: None, 80: None, 90: None},
@@ -32,6 +33,7 @@ HEAT_INDEX_TABLE = {
     28: {10: 27, 20: 27,   30: 27,   40: 28,   50: 28,   60: 29,   70: 31,   80: 32,   90: 34  },
     27: {10: 26, 20: 26,   30: 26,   40: 27,   50: 27,   60: 28,   70: 29,   80: 30,   90: 31  },
     26: {10: 25, 20: 25,   30: 26,   40: 26,   50: 27,   60: 27,   70: 27,   80: 28,   90: 28  },
+    25: {10: 25, 20: 25,   30: 25,   40: 25,   50: 25,   60: 25,   70: 25,   80: 25,   90: 25  },
 }
 
 
@@ -56,7 +58,7 @@ while True:
     temp_input = d.temperature()
     humid_input = d.humidity()
 
-    print(f"actual temp: {round(temp_input,1)}  actual humid: {round(humid_input,1)}")
+    #print(f"actual temp: {round(temp_input,1)}  actual humid: {round(humid_input,1)}")
 
     # to switch the sensor input to int for compatability with HEAT_INDEX_TABLE
     air_temp_c = int(temp_input)
@@ -73,9 +75,9 @@ while True:
 
         if temp not in range(26,51):
             if temp < 26:
-                temp = 26
+                temp = 25
             else:
-                temp = 50
+                temp = 51
 
         if humid not in range(10,91):
             if humid < 10:
@@ -86,46 +88,36 @@ while True:
             pass
 
     out_of_range_round(air_temp_c,relative_humidity)
-    print(f"conv temp: {round(temp,1)}  conv humid: {round(humid, -1)}")
+    #print(f"conv temp: {round(temp,1)}  conv humid: {round(humid, -1)}")
     HEAT_INDEX = HEAT_INDEX_TABLE[temp][round(humid,-1)]
 
     
     lcd.clear()
-    if HEAT_INDEX is None:
+    if HEAT_INDEX is None or HEAT_INDEX >= 52:
+        lcd.set_cursor(0, 0)
+        lcd.print(f"Temp:{temp_input}Humi:{humid_input}")
+        lcd.set_cursor(0, 1)
+        lcd.print("Extreme Danger IV")
+    if HEAT_INDEX <= 25:
         lcd.set_cursor(0, 0)
         lcd.print(f"Temp:{temp_input} humi:{humid_input}")
         lcd.set_cursor(0, 1)
-        lcd.print("Extreme Danger")
+        lcd.print("Normal Condition")
 
     elif HEAT_INDEX <= 29:
         lcd.set_cursor(0, 0)
         lcd.print(f"Temp:{round(temp_input,1)}Humi:{round(humid_input,1)}")
         lcd.set_cursor(0, 1)
-        lcd.print("Caution I:1")
+        lcd.print("Caution I")
 
     elif 30 <= HEAT_INDEX <= 38:
         lcd.set_cursor(0, 0)
         lcd.print(f"Temp:{temp_input}Humi:{humid_input}")
         lcd.set_cursor(0, 1)
-        lcd.print("Extreme Caution")
+        lcd.print("Extreme Caution II")
     elif 39 <= HEAT_INDEX <= 51:
         lcd.set_cursor(0, 0)
         lcd.print(f"Temp:{temp_input}Humi:{humid_input}")
         lcd.set_cursor(0, 1)
-        lcd.print("Danger")
-    elif HEAT_INDEX >= 52:
-        lcd.set_cursor(0, 0)
-        lcd.print(f"Temp:{temp_input}Humi:{humid_input}")
-        lcd.set_cursor(0, 1)
-        lcd.print("Extreme Danger")
-    else:
-        lcd.set_cursor(0, 0)
-        lcd.print(f"Temp:{temp_input}Humi:{humid_input}")
-        lcd.set_cursor(0, 1)
-        lcd.print("Normal Condition")
-
-    
-    
-
-
-
+        lcd.print("Danger III")
+   
