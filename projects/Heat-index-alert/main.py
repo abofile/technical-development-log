@@ -38,8 +38,8 @@ HEAT_INDEX_TABLE = {
 
 
 # To Check If LCD Is begin detected
-i2c = I2C(0, scl=Pin(1), sda=Pin(0), freq=800000)
-print(i2c.scan()) 
+#i2c = I2C(0, scl=Pin(1), sda=Pin(0), freq=800000)
+#print(i2c.scan()) 
 # init the lcd
 I2C_ADDR = 0x27
 i2c = I2C(0, scl=Pin(1), sda=Pin(0), freq=800000)
