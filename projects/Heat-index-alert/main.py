@@ -98,7 +98,7 @@ while True:
         lcd.print(f"Temp:{temp_input}Humi:{humid_input}")
         lcd.set_cursor(0, 1)
         lcd.print("Extreme Danger IV")
-    if HEAT_INDEX <= 25:
+    elif HEAT_INDEX <= 25:
         lcd.set_cursor(0, 0)
         lcd.print(f"Temp:{temp_input} humi:{humid_input}")
         lcd.set_cursor(0, 1)
