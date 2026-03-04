@@ -11,7 +11,10 @@ def compound(initial_value: float, growth_rate: float, cycles: int, counter: str
 
         if counter.strip().upper() == "Y":
             print(f"Year no.{i + 1}: {round(total, 3)}")
-
+        
+    if counter.strip().upper() != "Y":
+        print(f"Total growth: {round(total, 3)}")
+    
     return total
 
 
@@ -24,26 +27,32 @@ def compound_goal(initial_value, goal, time_frame):
 CAGR_calculator = input("CAGR calculator y/n")
 
 if CAGR_calculator.strip().upper() == "Y":
-    starting_value = float(input("the initial value = "))
+    try:
+        starting_value = float(input("the initial value = "))
+        growth = float(input("the growth_rate = "))
+        time = int(input("cycles = "))
+        choise = input("do you want a yearly growth rate counter y/n ")
+        compound(starting_value, growth, time, choise)
+    except (TypeError, ValueError) as e:
+        print("Wrong data type use numbers only", e)
+    except ZeroDivisionError as e:
+        print("You can't dived zero", e)
 
-    growth = float(input("the growth_rate = "))
 
-    time = int(input("cycles = "))
-
-    choise = input("do you want a yearly growth rate counter y/n ")
-
-    compound(starting_value, growth, time, choise)
-
-    if choise.strip().upper() != "Y":
-        print(f"total growth: {round(total, 3)}")
+ 
+    
 
 goal_request = input("Target goal calculator y/n")
 
 if goal_request.strip().upper() == "Y":
-    A = float(input("the current value = "))
-    B = float(input("the goal target = "))
-    C = int(input("what is your time frame: "))
+    try:
+        A = float(input("the current value = "))
+        B = float(input("the goal target = "))
+        C = int(input("what is your time frame: "))
+        compound_goal(A, B, C)
+        print(f"You need a growth rate of {round(target, 3)}% a year to reach your goal")
+    except (TypeError, ValueError) as e:
+        print("Wrong data type use numbers only", e)
+    except ZeroDivisionError as e:
+        print("You can't dived zero", e)
 
-    compound_goal(A, B, C)
-
-    print(f"You need a growth rate of {round(target, 3)}% a year to reach your goal")
