@@ -1,24 +1,25 @@
 # weather-delta
 
-A Python tool that compares local sensor readings from a Raspberry Pi Pico against public weather API data for the same area, and logs the difference over time.
+A Python tool that compares averaged local sensor readings from an ESP32 against public weather API data for the same area, and logs both to a SQLite database for delta tracking over time.
 
-## Planned Features
+## How It Works
 
-- Pull current weather data from a public API (OpenWeatherMap) by coordinates
-- Read temperature and humidity from a DHT22 sensor on the Raspberry Pi Pico
-- Compare local sensor readings against the API data
-- Log the delta between the two sources with a timestamp
-- Track patterns over time — does the local area consistently read hotter or more humid than the official station?
+- The ESP32 reads temperature, humidity, and pressure from a BME280 sensor every minute for 10 minutes
+- The 10 readings are averaged to reduce noise and improve accuracy
+- The OpenWeatherMap API is called once at the end of the 10-minute window
+- Both the averaged sensor data and the API data are logged to a SQLite database with a timestamp
+- The delta between the two sources is calculated and stored for all three readings
 
 ## Planned Stack
 
 | Part | Tool |
 |---|---|
 | Language | Python 3 |
-| Sensor | DHT22 via Raspberry Pi Pico |
+| Microcontroller | ESP32 |
+| Sensor | BME280 |
 | Weather data | OpenWeatherMap API (free tier) |
 | Data format | JSON |
-| Logging | CSV or plain text file |
+| Logging | SQLite |
 
 ## Project Goals
 
@@ -26,10 +27,8 @@ This project is primarily a learning exercise targeting:
 
 - Working with public REST APIs
 - Parsing and handling JSON responses
-- Serial or network communication with the Pico
-- File I/O for structured logging
-- Basic data comparison logic
+- WiFi communication via ESP32
+- SQLite database logging from both API and hardware sources
+- Averaging sensor data for accuracy
+- Basic data comparison and delta calculation
 
-## Status
-
-> 🔧 In planning — not yet started
