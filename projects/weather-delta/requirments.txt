@@ -1,5 +1,7 @@
 
 Lib for BME-280:
-  -https://github.com/robert-hh/BME280.git 
+  -https://github.com/robert-hh/BME280.git
+
+Add cordinates and api key in the script
 
 
