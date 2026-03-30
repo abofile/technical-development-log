@@ -1,7 +1,8 @@
 
 Lib for BME-280:
   -https://github.com/robert-hh/BME280.git
-
+Lib for MQTT on python:
+  -https://github.com/eclipse-paho/paho.mqtt.python/tree/master
 Add cordinates and api key in the script
 
 
