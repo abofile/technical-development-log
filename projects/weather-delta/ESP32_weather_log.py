@@ -8,9 +8,9 @@ i2c = I2C(0, sda=Pin(21), scl=Pin(22))
 bme = bme280.BME280(i2c=i2c)
 
 
-def read_log_data(server="localhost"):
+def read_log_data(server="Broker local host"):
     temp, pressure, humidity = bme.values
-    c = MQTTClient("umqtt_client", server)
+    c = MQTTClient("ESP-32", server)
     
     c.connect()
     c.publish(b"sensors/temp", str(temp).encode())
@@ -25,7 +25,7 @@ def do_connect():
     wlan.active(True)
     if not wlan.isconnected():
         print('connecting to network...')
-        wlan.connect('ssid', 'key')
+        wlan.connect('ssid', 'pass')
         while not wlan.isconnected():
             machine.idle()
     print('network config:', wlan.ipconfig('addr4'))
@@ -33,8 +33,8 @@ def do_connect():
 
 while True:
     do_connect()
-    read_log_data(server="localhost")
-    time.sleep(60)
+    read_log_data(server="")
+    time.sleep(5)
 
 
     

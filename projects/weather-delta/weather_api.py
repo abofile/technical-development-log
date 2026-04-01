@@ -16,7 +16,7 @@ def get_response():
         if response.status_code == 200:
             with sqlite3.connect("weather_log.db") as conn:
                 conn.execute("""
-                    CREATE TABLE IF NOT EXISTS weather_log (
+                    CREATE TABLE IF NOT EXISTS weather_log_api (
                         id          INTEGER PRIMARY KEY AUTOINCREMENT,
                         temp        REAL,
                         humidity    INTEGER,
@@ -24,7 +24,7 @@ def get_response():
                     )
                 """)
                 conn.execute(
-                    "INSERT INTO weather_log (temp, humidity, recorded_at) VALUES (?, ?, ?)",
+                    "INSERT INTO weather_log_api (temp, humidity, recorded_at) VALUES (?, ?, ?)",
                     (data["main"]["temp"], data["main"]["humidity"], datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
                 )
         else:
@@ -34,4 +34,4 @@ def get_response():
 
 while True:
     get_response()
-    time.sleep(1)
+    time.sleep(600)
