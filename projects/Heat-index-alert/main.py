@@ -46,28 +46,7 @@ i2c = I2C(0, scl=Pin(1), sda=Pin(0), freq=800000)
 lcd = LCD(addr=I2C_ADDR, cols=16, rows=2, i2c=i2c)
 lcd.begin()
 
-
-
-while True:
-    time.sleep(2)
-    
-
-    #sensor setup
-    d = dht.DHT22(Pin(4))
-    d.measure()
-    temp_input = d.temperature()
-    humid_input = d.humidity()
-
-    #print(f"actual temp: {round(temp_input,1)}  actual humid: {round(humid_input,1)}")
-
-    # to switch the sensor input to int for compatability with HEAT_INDEX_TABLE
-    air_temp_c = int(temp_input)
-    relative_humidity = int(humid_input)
-
-    temp = 0
-    humid = 0
-
-    def out_of_range_round(tempc,air_moisture):
+def out_of_range_round(tempc,air_moisture):
         global temp
         global humid
         temp = tempc
@@ -87,12 +66,30 @@ while True:
         else:
             pass
 
+
+
+
+while True:
+    #sensor setup
+    d = dht.DHT22(Pin(4))
+    d.measure()
+    temp_input = d.temperature()
+    humid_input = d.humidity()
+
+    #print(f"actual temp: {round(temp_input,1)}  actual humid: {round(humid_input,1)}")
+
+    # to switch the sensor input to int for compatability with HEAT_INDEX_TABLE
+    air_temp_c = int(temp_input)
+    relative_humidity = int(humid_input)
+
+    temp = 0
+    humid = 0
+
     out_of_range_round(air_temp_c,relative_humidity)
     #print(f"conv temp: {round(temp,1)}  conv humid: {round(humid, -1)}")
+
     HEAT_INDEX = HEAT_INDEX_TABLE[temp][round(humid,-1)]
 
-    
-    lcd.clear()
     if HEAT_INDEX is None or HEAT_INDEX >= 52:
         lcd.set_cursor(0, 0)
         lcd.print(f"Temp:{temp_input}Humi:{humid_input}")
@@ -120,4 +117,5 @@ while True:
         lcd.print(f"Temp:{temp_input}Humi:{humid_input}")
         lcd.set_cursor(0, 1)
         lcd.print("Danger III")
-   
+    time.sleep(2)
+    lcd.clear()
